@@ -1,6 +1,6 @@
 """Markdown to HTML converter"""
 import markdown
-from base import Converter
+from .base import Converter
 
 
 class MarkdownToHTML(Converter):
@@ -11,8 +11,6 @@ class MarkdownToHTML(Converter):
         # Extensions to use
         self.extensions = [
             'markdown.extensions.extra',
-            'markdown.extensions.codehilite',
-            'markdown.extensions.toc',
         ]
     
     def convert(self, input_data: str) -> str:

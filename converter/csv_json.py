@@ -3,7 +3,7 @@ import csv
 import json
 from io import StringIO
 from typing import Any, Dict, List
-from base import Converter
+from .base import Converter
 
 
 class CSVToJSON(Converter):
@@ -23,7 +23,7 @@ class CSVToJSON(Converter):
                 return json.dumps([], indent=2)
             
             rows = list(reader)
-            return json.dumps(rows, indent=2)
+            return json.dumps(rows, indent=2, ensure_ascii=False)
         except Exception as e:
             raise ValueError(f"CSV conversion failed: {str(e)}")
     
@@ -34,7 +34,8 @@ class CSVToJSON(Converter):
         
         try:
             reader = csv.reader(StringIO(input_data.strip()))
-            next(reader, None)  # Try to read first row
+            for row in reader:
+                pass  # Just try to parse all rows
             return True
         except Exception:
             return False
@@ -64,13 +65,15 @@ class JSONToCSV(Converter):
             if not data:
                 return ""
             
-            # Get all unique keys across all objects
-            keys = set()
+            # Get all unique keys preserving order from first object
+            keys = []
+            seen = set()
             for item in data:
                 if isinstance(item, dict):
-                    keys.update(item.keys())
-            
-            keys = sorted(list(keys))
+                    for k in item.keys():
+                        if k not in seen:
+                            keys.append(k)
+                            seen.add(k)
             
             output = StringIO()
             writer = csv.DictWriter(output, fieldnames=keys)

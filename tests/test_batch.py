@@ -2,7 +2,7 @@
 import pytest
 import tempfile
 from pathlib import Path
-from batch import find_files, process_batch, supports_piping
+from converter.batch import find_files, process_batch, supports_piping
 
 
 class TestBatchProcessing:
@@ -29,6 +29,7 @@ class TestBatchProcessing:
             base = Path(tmpdir)
             (base / "data" / "input").mkdir(parents=True)
             (base / "data" / "input" / "test.csv").write_text("a,b")
+            (base / "other").mkdir(parents=True)
             (base / "other" / "file.csv").write_text("c,d")
             
             pattern = str(base / "**" / "*.csv")
@@ -133,7 +134,7 @@ class TestBatchIntegration:
     
     def test_batch_conversion_workflow(self):
         """Test end-to-end batch conversion"""
-        from csv_json import CSVToJSON
+        from converter.csv_json import CSVToJSON
         
         with tempfile.TemporaryDirectory() as tmpdir:
             input_dir = Path(tmpdir) / "input"

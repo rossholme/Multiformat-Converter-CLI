@@ -4,10 +4,10 @@ from pathlib import Path
 import sys
 import typer
 
-from csv_json import CSVToJSON, JSONToCSV
-from markdown_converter import MarkdownToHTML
-from utils import read_file, write_file, detect_format_from_extension, validate_file_path
-from batch import process_batch, supports_piping, read_from_stdin, write_to_stdout, find_files
+from .csv_json import CSVToJSON, JSONToCSV
+from .markdown_converter import MarkdownToHTML
+from .utils import read_file, write_file, detect_format_from_extension, validate_file_path
+from .batch import process_batch, supports_piping, read_from_stdin, write_to_stdout, find_files
 
 app = typer.Typer(help="Multiformat file converter CLI")
 

@@ -42,12 +42,12 @@ def main():
     
     # Run all test files
     test_files = [
-        "test_csv_json.py",
-        "test_markdown.py",
-        "test_utils.py",
-        "test_batch.py",
-        "test_cli.py",
-        "test_errors.py"
+        "tests/test_csv_json.py",
+        "tests/test_markdown.py",
+        "tests/test_utils.py",
+        "tests/test_batch.py",
+        "tests/test_cli.py",
+        "tests/test_errors.py"
     ]
     
     print("\nRunning test suites...")

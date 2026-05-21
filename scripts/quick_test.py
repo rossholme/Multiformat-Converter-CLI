@@ -32,9 +32,9 @@ print("=" * 60)
 
 # Run tests
 exit_code = pytest.main([
-    "test_csv_json.py",
-    "test_markdown.py", 
-    "test_utils.py",
+    "tests/test_csv_json.py",
+    "tests/test_markdown.py", 
+    "tests/test_utils.py",
     "-v",
     "--tb=short",
     "--color=yes"

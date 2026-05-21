@@ -1,6 +1,6 @@
 """Tests for Markdown to HTML converter"""
 import pytest
-from markdown_converter import MarkdownToHTML
+from converter.markdown_converter import MarkdownToHTML
 
 
 class TestMarkdownToHTML:

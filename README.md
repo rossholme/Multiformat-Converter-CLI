@@ -38,93 +38,133 @@ pip install -e ".[dev]"
 
 ## Usage
 
+The CLI is accessed via the `converter.cli` module:
+
+```bash
+python -m converter.cli csv-to-json data.csv
+```
+
+Or directly:
+
+```bash
+python converter/cli.py csv-to-json data.csv
+```
+
 ### CSV to JSON
 
 ```bash
-python cli.py csv-to-json data.csv
-python cli.py csv-to-json data.csv -o output.json
+python -m converter.cli csv-to-json data.csv
+python -m converter.cli csv-to-json data.csv -o output.json
 
 # Batch processing
-python cli.py csv-to-json "data/*.csv" --batch -o output/
+python -m converter.cli csv-to-json "data/*.csv" --batch -o output/
 
 # From stdin
-cat data.csv | python cli.py csv-to-json
+cat data.csv | python -m converter.cli csv-to-json
 ```
 
 ### JSON to CSV
 
 ```bash
-python cli.py json-to-csv data.json
-python cli.py json-to-csv data.json -o output.csv
+python -m converter.cli json-to-csv data.json
+python -m converter.cli json-to-csv data.json -o output.csv
 
 # Batch processing
-python cli.py json-to-csv "*.json" --batch -o output/
+python -m converter.cli json-to-csv "*.json" --batch -o output/
 
 # From stdin
-cat data.json | python cli.py json-to-csv
+cat data.json | python -m converter.cli json-to-csv
 ```
 
 ### Markdown to HTML
 
 ```bash
-python cli.py markdown-to-html README.md
-python cli.py markdown-to-html README.md -o output.html
+python -m converter.cli markdown-to-html README.md
+python -m converter.cli markdown-to-html README.md -o output.html
 
 # Batch processing
-python cli.py markdown-to-html "docs/*.md" --batch -o html/
+python -m converter.cli markdown-to-html "docs/*.md" --batch -o html/
 
 # From stdin
-cat README.md | python cli.py markdown-to-html
+cat README.md | python -m converter.cli markdown-to-html
 ```
 
 ### With Piping
 
 ```bash
 # Pipe between commands
-cat data.csv | python cli.py csv-to-json | python cli.py json-to-csv
+cat data.csv | python -m converter.cli csv-to-json | python -m converter.cli json-to-csv
 ```
 
 ## Project Structure
 
 ```
 multiformat-converter-cli/
-├── base.py                  # Abstract base converter class
-├── csv_json.py             # CSV ↔ JSON converters
-├── markdown_converter.py    # Markdown → HTML converter
-├── utils.py                # File I/O and utilities
-├── cli.py                  # Typer CLI application
-├── test_csv_json.py        # CSV/JSON converter tests
-├── test_markdown.py        # Markdown converter tests
-├── test_utils.py           # Utility function tests
-├── pyproject.toml          # Project metadata and dependencies
-├── pytest.ini              # Pytest configuration
-└── requirements.txt        # Dependency list
+├── converter/                   # Main package
+│   ├── __init__.py
+│   ├── base.py                  # Abstract base converter class
+│   ├── csv_json.py             # CSV ↔ JSON converters
+│   ├── markdown_converter.py    # Markdown → HTML converter
+│   ├── batch.py                # Batch processing utilities
+│   ├── utils.py                # File I/O and utilities
+│   ├── cli.py                  # Typer CLI application
+│
+├── tests/                       # Test suite (68 tests)
+│   ├── __init__.py
+│   ├── test_csv_json.py        # CSV/JSON converter tests
+│   ├── test_markdown.py        # Markdown converter tests
+│   ├── test_utils.py           # Utility function tests
+│   ├── test_batch.py           # Batch processing tests
+│   ├── test_cli.py             # CLI integration tests
+│   └── test_errors.py          # Error handling & edge cases
+│
+├── fixtures/                    # Sample data files
+│   ├── fixtures_sample.csv
+│   ├── fixtures_sample.json
+│   └── fixtures_sample.md
+│
+├── scripts/                     # Utility scripts
+│   ├── run_all_tests.py
+│   ├── quick_test.py
+│   ├── setup_dirs.py
+│   └── run_tests.bat
+│
+├── reports/                     # Project reports
+│   ├── COMPLETION_REPORT.txt
+│   ├── PROJECT_REPORT.txt
+│   └── SPRINT_*.txt
+│
+├── pyproject.toml              # Project metadata and dependencies
+├── pytest.ini                  # Pytest configuration
+├── requirements.txt            # Dependency list
+├── README.md                   # Project documentation
+└── GETTING_STARTED.md          # Quick start guide
 ```
 
 ## Running Tests
 
 ```bash
 # Run all tests
-pytest test_*.py -v
+pytest
 
 # Run specific test suite
-pytest test_csv_json.py -v
-pytest test_batch.py -v
+pytest tests/test_csv_json.py -v
+pytest tests/test_batch.py -v
 
 # Run with coverage report
-pytest test_*.py --cov=. --cov-report=html
+pytest --cov=converter --cov-report=html
 ```
 
 ### Test Coverage
 
-- **test_csv_json.py**: 12 tests for CSV/JSON conversions
-- **test_markdown.py**: 10 tests for Markdown/HTML conversion
-- **test_utils.py**: 11 tests for file operations and utilities
-- **test_batch.py**: 11 tests for batch processing
-- **test_cli.py**: 14 integration tests for CLI
-- **test_errors.py**: 16 tests for error handling and edge cases
+- **tests/test_csv_json.py**: 13 tests for CSV/JSON conversions
+- **tests/test_markdown.py**: 9 tests for Markdown/HTML conversion
+- **tests/test_utils.py**: 12 tests for file operations and utilities
+- **tests/test_batch.py**: 8 tests for batch processing
+- **tests/test_cli.py**: 10 integration tests for CLI
+- **tests/test_errors.py**: 16 tests for error handling and edge cases
 
-**Total: 74 unit and integration tests** covering:
+**Total: 68 unit and integration tests** covering:
 - Happy paths and conversions
 - Edge cases (empty files, special characters, nested data)
 - Round-trip conversions
@@ -152,13 +192,13 @@ All converters inherit from the abstract `Converter` base class, which provides:
 
 ## Testing
 
-The project includes comprehensive unit tests:
+The project includes comprehensive unit tests in `tests/`:
 
-- **test_csv_json.py**: 12 tests for CSV/JSON conversions
-- **test_markdown.py**: 10 tests for Markdown/HTML conversion
-- **test_utils.py**: 11 tests for file operations and utilities
+- **tests/test_csv_json.py**: 13 tests for CSV/JSON conversions
+- **tests/test_markdown.py**: 9 tests for Markdown/HTML conversion
+- **tests/test_utils.py**: 12 tests for file operations and utilities
 
-Total: 33 tests covering happy paths, edge cases, and error handling.
+Total: 68 tests covering happy paths, edge cases, and error handling.
 
 ## Development Roadmap
 

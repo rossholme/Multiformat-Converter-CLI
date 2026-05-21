@@ -1,7 +1,7 @@
 """Tests for utils module"""
 import pytest
 from pathlib import Path
-from utils import (
+from converter.utils import (
     detect_format_from_extension,
     read_file,
     write_file,

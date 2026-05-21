@@ -5,70 +5,66 @@
 ### 1. Install Dependencies
 ```bash
 cd C:\Users\rossh\Multiformat-Converter-CLI
-pip install -r requirements.txt
+python -m pip install -r requirements.txt
 ```
 
-### 2. Verify Installation
-```bash
-python check_imports.py
-```
-
-### 3. Run Tests
-```bash
-python run_all_tests.py
-```
-
-### 4. Try It Out
+### 2. Try It Out
 ```bash
 # Convert CSV to JSON
-python cli.py csv-to-json fixtures_sample.csv
+python -m converter.cli csv-to-json fixtures/fixtures_sample.csv
 
 # Convert Markdown to HTML  
-python cli.py markdown-to-html fixtures_sample.md
+python -m converter.cli markdown-to-html fixtures/fixtures_sample.md
 
 # Show help
-python cli.py --help
+python -m converter.cli --help
 ```
 
 ## Project Structure at a Glance
 
 ```
 📦 Project Root
-├── 🔧 Core Modules
-│   ├── base.py                 - Abstract converter class
-│   ├── csv_json.py             - CSV ↔ JSON converters
-│   ├── markdown_converter.py    - Markdown → HTML
-│   ├── batch.py                - Batch processing
-│   ├── utils.py                - File utilities
-│   └── cli.py                  - Main CLI app
+├── 📦 converter/                 # Main Python package
+│   ├── base.py                   # Abstract converter class
+│   ├── csv_json.py               # CSV ↔ JSON converters
+│   ├── markdown_converter.py      # Markdown → HTML
+│   ├── batch.py                  # Batch processing
+│   ├── utils.py                  # File utilities
+│   └── cli.py                    # Main CLI app (entry point)
 │
-├── ✅ Test Suite (74 tests)
-│   ├── test_csv_json.py        - 12 tests
-│   ├── test_markdown.py        - 10 tests
-│   ├── test_utils.py           - 11 tests
-│   ├── test_batch.py           - 11 tests
-│   ├── test_cli.py             - 14 tests
-│   └── test_errors.py          - 16 tests
+├── ✅ tests/                     # Test suite (68 tests)
+│   ├── test_csv_json.py          # 13 tests
+│   ├── test_markdown.py          # 9 tests
+│   ├── test_utils.py             # 12 tests
+│   ├── test_batch.py             # 8 tests
+│   ├── test_cli.py               # 10 tests
+│   └── test_errors.py            # 16 tests
 │
-├── 📚 Documentation
-│   ├── README.md               - Full usage guide
-│   ├── SPRINT_1_SUMMARY.txt    - Sprint 1 details
-│   ├── SPRINT_2_SUMMARY.txt    - Sprint 2 details
-│   └── PROJECT_COMPLETION_SUMMARY.txt
-│
-├── 🔧 Configuration
-│   ├── pyproject.toml          - Project metadata
-│   ├── pytest.ini              - Test config
-│   └── requirements.txt        - Dependencies
-│
-├── 📂 Sample Files
+├── 📂 fixtures/                  # Sample data files
 │   ├── fixtures_sample.csv
 │   ├── fixtures_sample.json
 │   └── fixtures_sample.md
 │
-└── 🚀 Utilities
-    ├── run_all_tests.py        - Test runner
-    └── check_imports.py        - Dependency check
+├── 🚀 scripts/                   # Utility scripts
+│   ├── run_all_tests.py
+│   ├── quick_test.py
+│   ├── check_imports.py
+│   ├── setup_dirs.py
+│   └── run_tests.bat
+│
+├── 📄 reports/                   # Project reports
+│   ├── COMPLETION_REPORT.txt
+│   ├── PROJECT_REPORT.txt
+│   ├── PROJECT_COMPLETION_SUMMARY.txt
+│   ├── SPRINT_1_SUMMARY.txt
+│   └── SPRINT_2_SUMMARY.txt
+│
+├── pyproject.toml                # Project metadata
+├── pytest.ini                    # Test configuration
+├── requirements.txt              # Dependencies
+├── README.md                     # Full documentation
+├── GETTING_STARTED.md            # This file
+└── INDEX.md                      # Documentation index
 ```
 
 ## Key Features
@@ -78,12 +74,12 @@ python cli.py --help
 - **Markdown → HTML**: Convert with formatting preservation
 
 ### ✅ I/O Methods
-- **Single files**: `python cli.py csv-to-json file.csv`
-- **Batch processing**: `python cli.py csv-to-json "*.csv" --batch -o output/`
-- **Piping**: `cat file.csv | python cli.py csv-to-json`
+- **Single files**: `python -m converter.cli csv-to-json file.csv`
+- **Batch processing**: `python -m converter.cli csv-to-json "*.csv" --batch -o output/`
+- **Piping**: `cat file.csv | python -m converter.cli csv-to-json`
 
 ### ✅ Quality Assurance
-- **74 comprehensive tests**
+- **68 comprehensive tests**
 - **Error handling** for edge cases
 - **Input validation** on all inputs
 - **Type hints** throughout codebase
@@ -93,40 +89,40 @@ python cli.py --help
 ### CSV to JSON
 ```bash
 # Single file to stdout
-python cli.py csv-to-json data.csv
+python -m converter.cli csv-to-json data.csv
 
 # Single file to output
-python cli.py csv-to-json data.csv -o data.json
+python -m converter.cli csv-to-json data.csv -o data.json
 
 # Batch processing
-python cli.py csv-to-json "*.csv" --batch -o json_output/
+python -m converter.cli csv-to-json "*.csv" --batch -o json_output/
 
 # From stdin
-cat data.csv | python cli.py csv-to-json > data.json
+cat data.csv | python -m converter.cli csv-to-json > data.json
 ```
 
 ### JSON to CSV
 ```bash
 # Single file
-python cli.py json-to-csv data.json -o data.csv
+python -m converter.cli json-to-csv data.json -o data.csv
 
 # Batch
-python cli.py json-to-csv "*.json" --batch -o csv_output/
+python -m converter.cli json-to-csv "*.json" --batch -o csv_output/
 
 # Piping
-cat data.json | python cli.py json-to-csv
+cat data.json | python -m converter.cli json-to-csv
 ```
 
 ### Markdown to HTML
 ```bash
 # Single file
-python cli.py markdown-to-html README.md -o output.html
+python -m converter.cli markdown-to-html README.md -o output.html
 
 # Batch
-python cli.py markdown-to-html "docs/*.md" --batch -o html/
+python -m converter.cli markdown-to-html "docs/*.md" --batch -o html/
 
 # Piping
-cat README.md | python cli.py markdown-to-html
+cat README.md | python -m converter.cli markdown-to-html
 ```
 
 ## Development Workflow
@@ -134,20 +130,20 @@ cat README.md | python cli.py markdown-to-html
 ### Running Tests
 ```bash
 # All tests
-python run_all_tests.py
+pytest
 
 # Specific test suite
-pytest test_csv_json.py -v
+pytest tests/test_csv_json.py -v
 
 # With coverage
-pytest test_*.py --cov=. --cov-report=html
+pytest --cov=converter --cov-report=html
 ```
 
 ### Adding a New Converter
 
 1. Create converter class inheriting from `Converter`:
 ```python
-from base import Converter
+from converter.base import Converter
 
 class YAMLToJSON(Converter):
     def __init__(self):
@@ -162,8 +158,8 @@ class YAMLToJSON(Converter):
         pass
 ```
 
-2. Add tests in `test_formats.py`
-3. Add CLI command in `cli.py`
+2. Add tests in `tests/test_formats.py`
+3. Add CLI command in `converter/cli.py`
 4. Update README with new format
 
 ## Architecture
@@ -179,14 +175,14 @@ class Converter(ABC):
 ### CLI Interface (Typer)
 Modern, type-hinted CLI with automatic help:
 ```bash
-python cli.py --help
-python cli.py csv-to-json --help
+python -m converter.cli --help
+python -m converter.cli csv-to-json --help
 ```
 
 ### Batch Processing
 Glob patterns + batch utility function:
 ```bash
-python cli.py csv-to-json "data/*/files/*.csv" --batch -o output/
+python -m converter.cli csv-to-json "data/*/files/*.csv" --batch -o output/
 ```
 
 ## Testing Strategy
