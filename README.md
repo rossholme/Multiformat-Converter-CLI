@@ -1,6 +1,7 @@
 # Multiformat Converter CLI
 
 A Python command-line tool for converting between multiple file formats.
+The main purpose of this micro-project was to try out Agentic coding.
 
 ## Features
 
