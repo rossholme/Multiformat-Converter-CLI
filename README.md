@@ -231,10 +231,6 @@ Total: 68 tests covering happy paths, edge cases, and error handling.
 - **markdown**: Markdown to HTML conversion
 - **pytest**: Testing framework (dev)
 
-## License
-
-MIT
-
 ## Author
 
-Built with Python and ❤️
+VS Code Copilot CLI and Ross
